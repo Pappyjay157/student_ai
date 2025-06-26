@@ -13,7 +13,7 @@ class _DraftScreenState extends State<DraftScreen> {
   String _task = 'draft';
   final List<String> options = ['summarize', 'draft', 'answer'];
   bool _loading = false;
-  String _output = '';
+  String output = '';
   final List<String> history = [];
 
   void _run() async {
@@ -34,7 +34,7 @@ class _DraftScreenState extends State<DraftScreen> {
     history.insert(0, "You ($_task):\n$text\nAI:\n$result");
     setState(() {
       _loading = false;
-      _output = '';
+      output = '';
       _input.clear();
     });
   }
