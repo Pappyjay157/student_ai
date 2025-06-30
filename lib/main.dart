@@ -1,7 +1,8 @@
 import 'screens/home.dart';
 import 'screens/upload.dart';
-import 'screens/draft.dart';
+import 'screens/editor.dart';
 import 'package:flutter/material.dart';
+import 'screens/writing_preferences.dart';
 
 void main() => runApp(const MyApp());
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (c) => const HomeScreen(),
         '/upload': (c) => const UploadNotesScreen(),
-        '/draft': (c) => const DraftScreen(),
+        '/draft': (c) => const DraftEditorScreen(),
+        '/preferences': (c) => const WritingPreferencesScreen(),
       },
     );
   }
