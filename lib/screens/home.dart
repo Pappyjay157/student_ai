@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                "🚀 Jumpstart your writing with AI-powered ideas",
+                "Jumpstart your writing with AI-powered ideas",
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   color: Colors.grey[700],
