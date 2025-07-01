@@ -1,6 +1,8 @@
 # Student AI App
 
-![App Screenshot](screenshot.png)
+<p align="center">
+    <img src="screenshot.png" alt="App Screenshot" />
+</p>
 
 ## Overview
 
