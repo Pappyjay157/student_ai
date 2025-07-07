@@ -14,11 +14,11 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<String> _suggestedTopics = [
-    "Analyze the theme of revenge in Shakespeare's Hamlet",
-    "The Impact of COVID-19 Lockdown on Parents' Mental Health",
-    "Factors Influencing Companies' Compensation Strategies",
-    "The Role of Social Media in Modern Society",
-    "Ethical Considerations in Research Participation"
+  "The Influence of Artificial Intelligence on Job Markets",
+  "Renewable Energy Solutions for Urban Environments",
+  "The Psychological Effects of Social Media on Teenagers",
+  "Exploring the Ethics of Genetic Engineering",
+  "The Role of Space Exploration in Scientific Advancement"
   ];
 
   void _onTopicTap(String topic) {
