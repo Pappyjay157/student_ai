@@ -1,6 +1,7 @@
 import 'screens/home.dart';
 import 'screens/upload.dart';
 import 'screens/editor.dart';
+import 'screens/final_content.dart';
 import 'package:flutter/material.dart';
 import 'screens/writing_preferences.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/upload': (c) => const UploadNotesScreen(),
         '/draft': (c) => const DraftEditorScreen(),
         '/preferences': (c) => const WritingPreferencesScreen(),
+        '/final': (c) => const FinalContentScreen(),
       },
     );
   }

@@ -32,15 +32,19 @@ dependencies:
     sdk: flutter
   http: ^1.2.1
   google_fonts: ^6.1.0
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   file_picker: ^10.2.0
+  pdf: ^3.11.3
+  provider: ^6.1.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -90,3 +94,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_icons:
+    image_path: "assets/icons/app_icon.png"
+    android: true
+    ios: true
