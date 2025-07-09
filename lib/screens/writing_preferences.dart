@@ -19,10 +19,10 @@ class _WritingPreferencesScreenState extends State<WritingPreferencesScreen> {
   ];
 
   String? selectedTone;
-  String? selectedReference;
+  String? selectedReference = "No, thanks";
 
+  String taskType = "essay";
   late String topic;
-  late String style;
 
   @override
   void didChangeDependencies() {
@@ -30,26 +30,26 @@ class _WritingPreferencesScreenState extends State<WritingPreferencesScreen> {
     final args = ModalRoute.of(context)?.settings.arguments as Map?;
     if (args != null) {
       topic = args['topic'];
-      style = args['style'];
+      taskType = args['task_type'];
     }
   }
 
   void _goToDraftEditor() {
-    if (selectedTone == null || selectedReference == null) {
+    if (selectedTone == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select tone and reference style")),
+        const SnackBar(content: Text("Please select a tone")),
       );
       return;
     }
 
     Navigator.pushNamed(
       context,
-      '/draft',
+      '/editor',
       arguments: {
         'topic': topic,
-        'style': style,
+        'task_type': taskType,
         'tone': selectedTone,
-        'reference': selectedReference,
+        'reference': selectedReference ?? "No, thanks",
       },
     );
   }
@@ -78,7 +78,13 @@ class _WritingPreferencesScreenState extends State<WritingPreferencesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7FB),
-      appBar: AppBar(title: const Text("Step 2: Preferences")),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text("Writing Preferences"),
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -89,9 +95,13 @@ class _WritingPreferencesScreenState extends State<WritingPreferencesScreen> {
             _buildChipList(_tones, selectedTone, (val) => setState(() => selectedTone = val)),
 
             const SizedBox(height: 32),
-            Text("Need references in your work?", style: GoogleFonts.plusJakartaSans(fontSize: 18, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 12),
-            _buildChipList(_references, selectedReference, (val) => setState(() => selectedReference = val)),
+
+            // Only show references if task is essay
+            if (taskType == 'essay') ...[
+              Text("Need references in your work?", style: GoogleFonts.plusJakartaSans(fontSize: 18, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 12),
+              _buildChipList(_references, selectedReference, (val) => setState(() => selectedReference = val)),
+            ],
 
             const Spacer(),
             SizedBox(

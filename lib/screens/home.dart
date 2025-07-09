@@ -10,16 +10,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _topicController = TextEditingController();
-  final List<String> _styles = ['Essay', 'Literature Review'];
-  int _selectedIndex = 0;
+  String selectedTaskType = 'essay';
+
+  final List<String> writingModes = ['essay', 'summary', 'chat'];
 
   final List<String> _suggestedTopics = [
-  "The Influence of Artificial Intelligence on Job Markets",
-  "Renewable Energy Solutions for Urban Environments",
-  "The Psychological Effects of Social Media on Teenagers",
-  "Exploring the Ethics of Genetic Engineering",
-  "The Role of Space Exploration in Scientific Advancement"
+    "The Influence of Artificial Intelligence on Job Markets",
+    "Renewable Energy Solutions for Urban Environments",
+    "The Psychological Effects of Social Media on Teenagers",
+    "Exploring the Ethics of Genetic Engineering",
+    "The Role of Space Exploration in Scientific Advancement"
   ];
+
+  String selectedTone = 'Formal'; // pulled from writing preference screen
+  String selectedReference = 'APA'; // pulled from writing preference screen
 
   void _onTopicTap(String topic) {
     _topicController.text = topic;
@@ -33,20 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       return;
     }
-
+    if (selectedTaskType == 'chat') {
+    Navigator.pushNamed(
+      context,
+      '/chat',
+      arguments: {
+        'initialPrompt': topic,
+      },
+    );
+  } else {
     Navigator.pushNamed(
       context,
       '/preferences',
       arguments: {
         'topic': topic,
-        'style': _styles[_selectedIndex].toLowerCase()
+        'task_type': selectedTaskType,
       },
     );
   }
+}
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF7F7FB),
       body: SafeArea(
@@ -72,25 +84,42 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Writing Style Toggle
-              ToggleButtons(
-                isSelected: List.generate(_styles.length, (i) => i == _selectedIndex),
-                onPressed: (index) {
-                  setState(() => _selectedIndex = index);
-                },
-                borderRadius: BorderRadius.circular(20),
-                selectedColor: Colors.white,
-                fillColor: Colors.deepPurple,
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-                children: _styles.map((e) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(e),
-                )).toList(),
+              // Writing Mode Pill Selector
+              SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: writingModes.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (context, index) {
+                    final mode = writingModes[index];
+                    final isSelected = selectedTaskType == mode;
+
+                    return GestureDetector(
+                      onTap: () => setState(() => selectedTaskType = mode),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.deepPurple : Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.deepPurple),
+                        ),
+                        child: Text(
+                          mode[0].toUpperCase() + mode.substring(1),
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? Colors.white : Colors.deepPurple,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
 
               const SizedBox(height: 24),
 
-              // Input box with elevation
+              // ✍️ Topic Input Box
               Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(16),
@@ -111,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
+              // 🎯 Suggested Topics
               Text(
                 "Suggested topics",
                 style: GoogleFonts.plusJakartaSans(
@@ -118,8 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-
-              // Suggested Chips
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -137,20 +165,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const Spacer(),
 
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _continueToDraft,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              // 🚀 Continue Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: _continueToDraft,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  child: const Text("Get Started"),
                 ),
-                child: const Text("Generate Draft"),
-              ),
-            )
+              )
             ],
           ),
         ),
