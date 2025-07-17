@@ -122,52 +122,65 @@ class _DraftEditorScreenState extends State<DraftEditorScreen> {
   }
 
   Widget _renderSubtopic(int index, TextEditingController controller) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          editingIndices.add(index);
-        });
-      },
-      child: editingIndices.contains(index)
-          ? Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Focus(
-                onFocusChange: (hasFocus) {
-                  if (!hasFocus) {
-                    setState(() => editingIndices.remove(index));
-                  }
-                },
+  return GestureDetector(
+    onTap: () {
+      setState(() {
+        editingIndices.add(index);
+      });
+    },
+    child: editingIndices.contains(index)
+        ? Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Focus(
+              onFocusChange: (hasFocus) {
+                if (!hasFocus) {
+                  setState(() => editingIndices.remove(index));
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    )
+                  ],
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: TextField(
                   controller: controller,
+                  maxLines: null, // expands vertically
+                  keyboardType: TextInputType.multiline,
                   autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: taskType == 'chat'
-                        ? "Message ${index + 1}"
-                        : taskType == 'paragraph'
-                            ? "Paragraph"
-                            : "Subtopic ${index + 1}",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  controller.text,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: controller.text.contains('.') ? 16 : 18,
-                    fontWeight: controller.text.contains('.')
-                        ? FontWeight.w500
-                        : FontWeight.w700,
+                  style: GoogleFonts.inter(fontSize: 16),
+                  decoration: const InputDecoration.collapsed(
+                    hintText: "Edit text...",
                   ),
                 ),
               ),
             ),
-    );
-  }
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                controller.text,
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: controller.text.contains('.') ? 16 : 18,
+                  fontWeight: controller.text.contains('.')
+                      ? FontWeight.w500
+                      : FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +209,7 @@ class _DraftEditorScreenState extends State<DraftEditorScreen> {
               style: GoogleFonts.plusJakartaSans(
                   fontSize: 18, fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 26),
             if (isLoading)
               const Expanded(child: Center(child: CircularProgressIndicator()))
             else
